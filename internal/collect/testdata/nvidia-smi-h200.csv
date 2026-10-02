@@ -1,0 +1,6 @@
+# nvidia-smi --query-gpu=index,uuid,name,memory.used,memory.total,utilization.gpu,temperature.gpu,power.draw --format=csv,noheader,nounits
+0, GPU-3f1c2a7e-0001, NVIDIA H200, 120832, 143771, 82, 67, 421.33
+1, GPU-3f1c2a7e-0002, NVIDIA H200, 4, 143771, 0, 34, 71.20
+2, GPU-3f1c2a7e-0003, NVIDIA H200, [Unknown Error], 143771, [Unknown Error], [Unknown Error], [Unknown Error]
+# nvidia-smi --query-compute-apps=gpu_uuid,pid,process_name,used_memory --format=csv,noheader,nounits
+GPU-3f1c2a7e-0001, 41822, /usr/bin/python3, 120000

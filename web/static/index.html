@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UniServe</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230b0b0b'/%3E%3Cpath d='M8 22V10h12M8 16h9' stroke='%23fcfcfb' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='23' cy='22' r='2.5' fill='%231baf7a'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="top">
+  <div class="brand">
+    <span class="mark" aria-hidden="true">
+      <svg viewBox="0 0 32 32" width="28" height="28"><rect width="32" height="32" rx="7" fill="currentColor"/><path d="M8 22V10h12M8 16h9" stroke="var(--surface)" stroke-width="3" fill="none" stroke-linecap="round"/><circle cx="23" cy="22" r="2.5" fill="var(--v-amd)"/></svg>
+    </span>
+    <div>
+      <h1>UniServe</h1>
+      <p class="tagline">One view and one copilot for every accelerator you own</p>
+    </div>
+  </div>
+  <div class="top-actions">
+    <span class="home-chip" id="home-chip" title="Home jurisdiction. Restricted data must stay here."></span>
+    <div class="menu" id="demo-menu" hidden>
+      <button class="btn" id="demo-btn" aria-haspopup="true" aria-expanded="false">Demo controls</button>
+      <div class="menu-list" id="demo-list" role="menu" hidden></div>
+    </div>
+    <button class="btn icon" id="theme-btn" aria-label="Switch between light and dark theme" title="Switch theme">
+      <svg viewBox="0 0 20 20" width="16" height="16" aria-hidden="true"><path d="M10 2a8 8 0 1 0 0 16V2z" fill="currentColor"/><circle cx="10" cy="10" r="7.25" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+  <section class="kpis" id="kpis" aria-label="Fleet summary"></section>
+
+  <div class="cols">
+    <section class="fleet" aria-label="Fleet">
+      <div class="section-head">
+        <h2>Fleet</h2>
+        <div class="seg" role="group" aria-label="How to show each node">
+          <button id="view-norm" class="on" aria-pressed="true">UniServe view</button>
+          <button id="view-raw" aria-pressed="false">Raw vendor output</button>
+        </div>
+      </div>
+      <div id="nodes" class="nodes"></div>
+    </section>
+
+    <aside class="side">
+      <section class="card copilot" aria-label="Copilot">
+        <div class="card-head">
+          <h2>Copilot</h2>
+          <button class="link" id="llm-settings-btn">Model settings</button>
+        </div>
+        <div class="model-line" id="model-line"></div>
+        <div class="presets" id="presets"></div>
+        <form id="ask-form" class="ask">
+          <input id="ask-input" type="text" autocomplete="off" placeholder="Ask about the fleet" aria-label="Ask the copilot about the fleet">
+          <button class="btn primary" type="submit" id="ask-btn">Ask</button>
+        </form>
+        <div class="answer" id="answer" aria-live="polite" hidden></div>
+      </section>
+
+      <section class="card" aria-label="Needs attention">
+        <div class="card-head">
+          <h2>Needs attention</h2>
+          <span class="count" id="findings-count"></span>
+        </div>
+        <div id="findings" class="findings"></div>
+      </section>
+
+      <section class="card" aria-label="Activity">
+        <div class="card-head"><h2>Activity</h2></div>
+        <ul id="events" class="events"></ul>
+      </section>
+    </aside>
+  </div>
+
+  <footer class="foot" id="foot"></footer>
+</main>
+
+<dialog id="llm-dialog">
+  <form method="dialog" id="llm-form">
+    <h2>Copilot model</h2>
+    <p class="hint">Any OpenAI-compatible endpoint works: vLLM, LM Studio, Ollama. Fleet telemetry is sent to this endpoint with every question, so point it at a model you host.</p>
+    <label>Base URL
+      <input id="llm-url" type="text" placeholder="http://10.0.0.7:8000/v1" autocomplete="off">
+    </label>
+    <label>Model name
+      <input id="llm-model" type="text" placeholder="Leave empty to use the first model the endpoint lists" autocomplete="off">
+    </label>
+    <label>API key (optional)
+      <input id="llm-key" type="password" placeholder="Not needed for most self-hosted endpoints" autocomplete="off">
+    </label>
+    <label>Fleet node serving this model (optional)
+      <select id="llm-node"></select>
+    </label>
+    <p class="dialog-msg" id="llm-msg" role="status"></p>
+    <div class="dialog-actions">
+      <button type="button" class="btn" id="llm-disconnect">Disconnect</button>
+      <span class="spacer"></span>
+      <button type="button" class="btn" id="llm-cancel">Cancel</button>
+      <button type="submit" class="btn primary" id="llm-save">Save and test</button>
+    </div>
+  </form>
+</dialog>
+
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script src="app.js"></script>
+</body>
+</html>
